@@ -1,0 +1,123 @@
+include_guard()
+
+set(MINI_CHROMIUM_SOURCE_FILES
+	base/atomicops.h
+	base/atomicops_internals_atomicword_compat.h
+	base/atomicops_internals_portable.h
+	base/auto_reset.h
+	base/bit_cast.h
+	base/check.h
+	base/check_op.h
+	base/compiler_specific.h
+	base/cxx17_backports.h
+	base/debug/alias.cc
+	base/debug/alias.h
+	base/files/file_path.cc
+	base/files/file_path.h
+	base/files/file_util.h
+	base/files/scoped_file.cc
+	base/files/scoped_file.h
+	base/format_macros.h
+	base/logging.cc
+	base/logging.h
+	base/memory/free_deleter.h
+	base/memory/page_size.h
+	base/memory/scoped_policy.h
+	base/metrics/histogram_functions.h
+	base/metrics/histogram_macros.h
+	base/metrics/persistent_histogram_allocator.h
+	base/notreached.h
+	base/numerics/checked_math.h
+	base/numerics/checked_math_impl.h
+	base/numerics/clamped_math.h
+	base/numerics/clamped_math_impl.h
+	base/numerics/safe_conversions.h
+	base/numerics/safe_conversions_impl.h
+	base/numerics/safe_math.h
+	base/numerics/safe_math_shared_impl.h
+	base/posix/eintr_wrapper.h
+	base/process/memory.cc
+	base/process/memory.h
+	base/rand_util.cc
+	base/rand_util.h
+	base/scoped_clear_last_error.h
+	base/scoped_generic.h
+	base/strings/string_number_conversions.cc
+	base/strings/string_number_conversions.h
+	base/strings/string_piece.h
+	base/strings/string_util.cc
+	base/strings/string_util.h
+	base/strings/stringprintf.cc
+	base/strings/stringprintf.h
+	base/strings/sys_string_conversions.h
+	base/strings/utf_string_conversion_utils.cc
+	base/strings/utf_string_conversion_utils.h
+	base/strings/utf_string_conversions.cc
+	base/strings/utf_string_conversions.h
+	base/synchronization/condition_variable.h
+	base/synchronization/lock.cc
+	base/synchronization/lock.h
+	base/synchronization/lock_impl.h
+	base/sys_byteorder.h
+	base/template_util.h
+	base/third_party/icu/icu_utf.cc
+	base/third_party/icu/icu_utf.h
+	base/threading/thread_local_storage.cc
+	base/threading/thread_local_storage.h
+	build/build_config.h
+	build/buildflag.h
+)
+
+if(WIN32)
+	set(MINI_CHROMIUM_SOURCE_FILES_WINDOWS
+		base/memory/page_size_win.cc
+		base/scoped_clear_last_error_win.cc
+		base/strings/string_util_win.cc
+		base/strings/string_util_win.h
+		base/synchronization/lock_impl_win.cc
+		base/threading/thread_local_storage_win.cc
+	)
+elseif(APPLE)
+	set(MINI_CHROMIUM_SOURCE_FILES_MACOS
+		base/files/file_util_posix.cc
+		base/memory/page_size_posix.cc
+		base/posix/safe_strerror.cc
+		base/posix/safe_strerror.h
+		base/strings/string_util_posix.h
+		base/synchronization/condition_variable_posix.cc
+		base/synchronization/lock_impl_posix.cc
+		base/threading/thread_local_storage_posix.cc
+		base/mac/close_nocancel.cc
+		base/mac/foundation_util.mm
+		base/mac/foundation_util.h
+		base/mac/mach_logging.cc
+		base/mac/mach_logging.h
+		base/mac/scoped_cftyperef.h
+		base/mac/scoped_ioobject.h
+		base/mac/scoped_launch_data.h
+		base/mac/scoped_mach_port.cc
+		base/mac/scoped_mach_port.h
+		base/mac/scoped_mach_vm.cc
+		base/mac/scoped_mach_vm.h
+		base/mac/scoped_nsautorelease_pool.mm
+		base/mac/scoped_nsautorelease_pool.h
+		base/mac/scoped_nsobject.h
+		base/mac/scoped_typeref.h
+		base/strings/sys_string_conversions_mac.mm
+	)
+else()
+	set(MINI_CHROMIUM_SOURCE_FILES_LINUX
+		base/files/file_util_posix.cc
+		base/memory/page_size_posix.cc
+		base/posix/safe_strerror.cc
+		base/posix/safe_strerror.h
+		base/strings/string_util_posix.h
+		base/synchronization/condition_variable_posix.cc
+		base/synchronization/lock_impl_posix.cc
+		base/threading/thread_local_storage_posix.cc
+	)
+endif()
+
+list(APPEND MINI_CHROMIUM_SOURCE_FILES ${MINI_CHROMIUM_SOURCE_FILES_${PLATFORM_UPPER}})
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Source Files" FILES ${MINI_CHROMIUM_SOURCE_FILES})
